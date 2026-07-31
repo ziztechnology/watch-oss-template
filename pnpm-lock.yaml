@@ -11,6 +11,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.3.3
         version: 4.3.3(vite@8.1.5(@types/node@26.1.2)(jiti@2.7.0))
+      '@ziztechnology/dial-library':
+        specifier: ^0.0.20
+        version: 0.0.20(typescript@7.0.2)
       ahooks:
         specifier: ^3.9.7
         version: 3.9.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -681,6 +684,9 @@ packages:
       babel-plugin-react-compiler:
         optional: true
 
+  '@ziztechnology/dial-library@0.0.20':
+    resolution: {integrity: sha512-GsyVtR8f3RyRiv3FZCiqAHm6aS76gWEuqfmtTPmf/C8fy8PlHMi7FIx4B6REqAK20q9wpVNinpui2s1rrhY8SQ==}
+
   ahooks@3.9.7:
     resolution: {integrity: sha512-S0lvzhbdlhK36RFBkGv+RbOM/dbbweym+BIHM/bwwuWVSVN5TuVErHPMWo4w0t1NDYg5KPp2iEf7Y7E5LASYiw==}
     peerDependencies:
@@ -710,6 +716,9 @@ packages:
       picomatch:
         optional: true
 
+  fflate@0.8.3:
+    resolution: {integrity: sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA==}
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -717,6 +726,9 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  hls.js@1.6.16:
+    resolution: {integrity: sha512-VSIRpLfRwlAAdGL4wiTucx2ScRipo0ed1FBatWkyt832jC4CReKstga6yIhYVwGu9LOBjuX9wzmRMeQdBJtzEA==}
 
   intersection-observer@0.12.2:
     resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==}
@@ -883,6 +895,9 @@ packages:
 
   lodash@4.18.1:
     resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
+
+  lottie-web@5.13.0:
+    resolution: {integrity: sha512-+gfBXl6sxXMPe8tKQm7qzLnUy5DUPJPKIyRHwtpCpyUEYjHYRJC/5gjUvdkuO2c3JllrPtHXH5UJJK8LRYl5yQ==}
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
@@ -1402,6 +1417,15 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.1.5(@types/node@26.1.2)(jiti@2.7.0)
 
+  '@ziztechnology/dial-library@0.0.20(typescript@7.0.2)':
+    dependencies:
+      fflate: 0.8.3
+      hls.js: 1.6.16
+      lottie-web: 5.13.0
+      ts-essentials: 10.2.1(typescript@7.0.2)
+    transitivePeerDependencies:
+      - typescript
+
   ahooks@3.9.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       '@babel/runtime': 7.29.7
@@ -1432,10 +1456,14 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.5
 
+  fflate@0.8.3: {}
+
   fsevents@2.3.3:
     optional: true
 
   graceful-fs@4.2.11: {}
+
+  hls.js@1.6.16: {}
 
   intersection-observer@0.12.2: {}
 
@@ -1544,6 +1572,8 @@ snapshots:
       lightningcss-win32-x64-msvc: 1.33.0
 
   lodash@4.18.1: {}
+
+  lottie-web@5.13.0: {}
 
   magic-string@0.30.21:
     dependencies:

@@ -1,7 +1,7 @@
 {
   "name": "toooony-watch-template",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,9 +13,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "ahooks": "^3.9.7",
+    "ky": "^2.0.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "ts-essentials": "^10.2.1"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",

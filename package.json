@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "@ziztechnology/dial-library": "^0.0.20",
+    "@ziztechnology/dial-library": "^0.0.24",
     "ahooks": "^3.9.7",
     "ky": "^2.0.2",
     "react": "^19.2.8",

@@ -1,0 +1,2 @@
+minimumReleaseAgeExclude:
+  - '@ziztechnology/dial-library@0.0.24'

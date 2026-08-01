@@ -12,8 +12,8 @@ importers:
         specifier: ^4.3.3
         version: 4.3.3(vite@8.1.5(@types/node@26.1.2)(jiti@2.7.0))
       '@ziztechnology/dial-library':
-        specifier: ^0.0.20
-        version: 0.0.20(typescript@7.0.2)
+        specifier: ^0.0.24
+        version: 0.0.24(typescript@7.0.2)
       ahooks:
         specifier: ^3.9.7
         version: 3.9.7(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -684,8 +684,8 @@ packages:
       babel-plugin-react-compiler:
         optional: true
 
-  '@ziztechnology/dial-library@0.0.20':
-    resolution: {integrity: sha512-GsyVtR8f3RyRiv3FZCiqAHm6aS76gWEuqfmtTPmf/C8fy8PlHMi7FIx4B6REqAK20q9wpVNinpui2s1rrhY8SQ==}
+  '@ziztechnology/dial-library@0.0.24':
+    resolution: {integrity: sha512-7UyJcSFTJvVbdY2GtPp4gzILj7op1l+PvxpV9sTb4xpdXyNOrCJGdF/OuzS7nP/fdQGn3S0Li5X9oGlNDF8/Mw==}
 
   ahooks@3.9.7:
     resolution: {integrity: sha512-S0lvzhbdlhK36RFBkGv+RbOM/dbbweym+BIHM/bwwuWVSVN5TuVErHPMWo4w0t1NDYg5KPp2iEf7Y7E5LASYiw==}
@@ -1417,7 +1417,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.1.5(@types/node@26.1.2)(jiti@2.7.0)
 
-  '@ziztechnology/dial-library@0.0.20(typescript@7.0.2)':
+  '@ziztechnology/dial-library@0.0.24(typescript@7.0.2)':
     dependencies:
       fflate: 0.8.3
       hls.js: 1.6.16

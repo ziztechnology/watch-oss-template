@@ -42,7 +42,7 @@ Enum values must use a constant object with `as const`, with the union type deri
 
 ```ts
 export const FOO = {
-  BAR: "bar",
+  BAR: 'bar',
 } as const;
 
 export type Foo = (typeof FOO)[keyof typeof FOO];
@@ -69,7 +69,7 @@ Define an interface that extends `JsonObject` only when business constraints req
 Default form:
 
 ```ts
-import type { JsonObject } from "ts-essentials";
+import type { JsonObject } from 'ts-essentials';
 
 const metadata: JsonObject = getMetadata();
 ```
@@ -93,7 +93,7 @@ Use `JsonArray` from `ts-essentials` for data that can be serialized as a JSON A
 Define a precise array element type only when business constraints require the element structure to be guaranteed at compile time and the precise type serves as a reusable contract or an explicit system boundary. Local variables, intermediate results, auxiliary structures, pass-through data, and arrays with dynamic element structures must use `JsonArray` directly.
 
 ```ts
-import type { JsonArray } from "ts-essentials";
+import type { JsonArray } from 'ts-essentials';
 
 const records: JsonArray = getRecords();
 ```
@@ -105,7 +105,7 @@ When a parameter or data value can accept both mutable and readonly arrays, use 
 Use `AnyArray<JsonObject>` for a flexible array of JSON objects that may be mutable or readonly.
 
 ```ts
-import type { AnyArray, JsonObject } from "ts-essentials";
+import type { AnyArray, JsonObject } from 'ts-essentials';
 
 const processItems = (items: AnyArray<Item>) => {
   for (const item of items) {
@@ -123,7 +123,7 @@ When a function, callback, hook, or extension interface may return either a sync
 Use `AsyncOrSync<JsonObject>` for a flexible JSON object returned synchronously or asynchronously.
 
 ```ts
-import type { AsyncOrSync, JsonObject } from "ts-essentials";
+import type { AsyncOrSync, JsonObject } from 'ts-essentials';
 
 type Handler = () => AsyncOrSync<Result>;
 type MetadataLoader = () => AsyncOrSync<JsonObject>;
@@ -155,7 +155,7 @@ Independent logic that must execute immediately must be extracted into a descrip
 
 ```ts
 const createConfig = () => {
-  return { environment: "production" };
+  return { environment: 'production' };
 };
 
 const config = createConfig();
@@ -179,7 +179,7 @@ Private class members must use ES2022 `#` private fields.
 
 ```ts
 class Cache {
-  #data = { foo: "bar" };
+  #data = { foo: 'bar' };
 }
 ```
 

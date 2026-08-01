@@ -56,12 +56,12 @@ const rawConfig = {
 
 ### Select a Configuration API
 
-| API                                     | Result                                                        |
-| --------------------------------------- | ------------------------------------------------------------- |
-| `parseDrivingExpressionsConfig(raw)`    | Throws `DrivingExpressionsConfigError` for invalid configuration |
-| `tryParseDrivingExpressionsConfig(raw)` | Returns `null` for invalid configuration                      |
+| API                                     | Result                                                                |
+| --------------------------------------- | --------------------------------------------------------------------- |
+| `parseDrivingExpressionsConfig(raw)`    | Throws `DrivingExpressionsConfigError` for invalid configuration      |
+| `tryParseDrivingExpressionsConfig(raw)` | Returns `null` for invalid configuration                              |
 | `readDrivingExpressionsConfig()`        | Reads the Runtime configuration; returns `null` if missing or invalid |
-| `waitForDrivingExpressionsConfig()`     | Waits for a Runtime configuration; returns `null` on timeout  |
+| `waitForDrivingExpressionsConfig()`     | Waits for a Runtime configuration; returns `null` on timeout          |
 
 After catching `DrivingExpressionsConfigError`, use `error.code` to distinguish an incorrect schema, a missing status, invalid media fields, and an unsafe URL. For user-provided configuration, record `code` and `message` to identify the incorrect entry.
 

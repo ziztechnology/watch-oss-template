@@ -64,10 +64,10 @@ Use `initialIndex` to select the initial track. A non-empty list starts at index
 
 The player provides the following playlist modes:
 
-| `playbackMode` | Behavior                                                                    |
-| -------------- | --------------------------------------------------------------------------- |
-| `repeat-all`   | Default; plays in order and returns to the first track after the last track |
-| `shuffle`      | Randomly selects a track other than the current one and retains history for `previous()` |
+| `playbackMode` | Behavior                                                                                        |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| `repeat-all`   | Default; plays in order and returns to the first track after the last track                     |
+| `shuffle`      | Randomly selects a track other than the current one and retains history for `previous()`        |
 | `once`         | Does not loop; stops at list boundaries and disables the corresponding previous or next control |
 
 Public control methods include `play()`, `pause()`, `toggle()`, `next()`, `previous()`, `playAt(index)`, and `seekToMs(positionMs)`. An empty list remains `idle`; valid playback controls other than `playAt(index)` do not throw. An invalid index passed to `playAt()` or invalid millisecond value passed to `seekToMs()` throws `RangeError`.
@@ -76,19 +76,19 @@ Public control methods include `play()`, `pause()`, `toggle()`, `next()`, `previ
 
 `getSnapshot()` returns the complete current state. `subscribe(listener)` notifies only subsequent changes and returns an idempotent unsubscribe function.
 
-| Field                 | Meaning                                                                       |
-| --------------------- | ----------------------------------------------------------------------------- |
-| `lifecycle`           | `active` or `destroyed`                                                       |
-| `phase`               | `idle`, `loading`, `paused`, `playing`, `buffering`, or `error`              |
-| `currentTrack`        | Current track; `null` for an empty list                                       |
-| `currentIndex`        | Current index; `-1` for an empty list                                         |
-| `isPlayRequested`     | Whether the user or Runtime requested continued playback                     |
-| `isActuallyPlaying`   | Whether the audio element has emitted `playing`                              |
-| `positionMs`          | Current playback position                                                     |
-| `durationMs`          | Total audio duration; `null` when unavailable or for a live stream           |
-| `canNext`             | Whether the player can currently switch to the next track                    |
-| `canPrevious`         | Whether the player can currently switch to the previous track                |
-| `error`               | `{ category, message, trackId }`; `null` under normal conditions             |
+| Field               | Meaning                                                            |
+| ------------------- | ------------------------------------------------------------------ |
+| `lifecycle`         | `active` or `destroyed`                                            |
+| `phase`             | `idle`, `loading`, `paused`, `playing`, `buffering`, or `error`    |
+| `currentTrack`      | Current track; `null` for an empty list                            |
+| `currentIndex`      | Current index; `-1` for an empty list                              |
+| `isPlayRequested`   | Whether the user or Runtime requested continued playback           |
+| `isActuallyPlaying` | Whether the audio element has emitted `playing`                    |
+| `positionMs`        | Current playback position                                          |
+| `durationMs`        | Total audio duration; `null` when unavailable or for a live stream |
+| `canNext`           | Whether the player can currently switch to the next track          |
+| `canPrevious`       | Whether the player can currently switch to the previous track      |
+| `error`             | `{ category, message, trackId }`; `null` under normal conditions   |
 
 The SDK does not automatically pause, resume, or destroy music on `document.hidden` or `pagehide`. The application must call `pause()` or `destroy()` based on page state. When the player is destroyed, the SDK pauses audio, clears the source that it set, and releases HLS, listeners, timers, and the Runtime control connection.
 
@@ -159,11 +159,11 @@ window.addEventListener('pageshow', (event) => {
 
 Only one `MultimediaPlayer` or `MultimediaController` may exist on a page at a time. Distinguish initialization errors through `MultimediaBridgeError.code`:
 
-| Code                                      | Meaning                                                        |
-| ----------------------------------------- | -------------------------------------------------------------- |
-| `MULTIMEDIA_BRIDGE_UNAVAILABLE`           | The Runtime does not provide an available media Bridge         |
+| Code                                      | Meaning                                                                      |
+| ----------------------------------------- | ---------------------------------------------------------------------------- |
+| `MULTIMEDIA_BRIDGE_UNAVAILABLE`           | The Runtime does not provide an available media Bridge                       |
 | `MULTIMEDIA_BRIDGE_CONFLICT`              | A media command entry point or another controller already exists on the page |
-| `MULTIMEDIA_BRIDGE_INITIALIZATION_FAILED` | The Ready notification or initial state report failed          |
+| `MULTIMEDIA_BRIDGE_INITIALIZATION_FAILED` | The Ready notification or initial state report failed                        |
 
 Use `reportIntervalMs` to adjust the playback state reporting interval. Call `destroy()` at the end to disconnect the in-car buttons and release resources.
 

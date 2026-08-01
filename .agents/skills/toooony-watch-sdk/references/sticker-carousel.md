@@ -21,14 +21,11 @@ Provide the carousel with a dedicated container that has explicit dimensions. Fo
 If you use a percentage height, the parent must also have a computable height.
 
 ```ts
-import {
-  StickerCarousel,
-  parseStickerCarouselConfig,
-} from "@ziztechnology/dial-library";
-import rawStickerConfig from "./stickers.json";
+import { StickerCarousel, parseStickerCarouselConfig } from '@ziztechnology/dial-library';
+import rawStickerConfig from './stickers.json';
 
-const container = document.querySelector<HTMLElement>("#sticker-stage");
-if (!container) throw new Error("Could not find #sticker-stage");
+const container = document.querySelector<HTMLElement>('#sticker-stage');
+if (!container) throw new Error('Could not find #sticker-stage');
 
 const config = parseStickerCarouselConfig(rawStickerConfig);
 const carousel = new StickerCarousel(container, config, {
@@ -44,7 +41,7 @@ const destroy = () => {
   carousel.destroy();
 };
 
-window.addEventListener("pagehide", (event) => {
+window.addEventListener('pagehide', (event) => {
   if (!event.persisted) destroy();
 });
 ```
@@ -122,14 +119,11 @@ To group Stickers into sets first and then display Stickers within each set, use
 ```
 
 ```ts
-import {
-  StickerSetCarousel,
-  parseStickerSetCarouselConfig,
-} from "@ziztechnology/dial-library";
-import rawSetConfig from "./sticker-sets.json";
+import { StickerSetCarousel, parseStickerSetCarouselConfig } from '@ziztechnology/dial-library';
+import rawSetConfig from './sticker-sets.json';
 
-const container = document.querySelector<HTMLElement>("#sticker-stage");
-if (!container) throw new Error("Could not find #sticker-stage");
+const container = document.querySelector<HTMLElement>('#sticker-stage');
+if (!container) throw new Error('Could not find #sticker-stage');
 
 const config = parseStickerSetCarouselConfig(rawSetConfig);
 const carousel = new StickerSetCarousel(container, config, {
@@ -144,7 +138,7 @@ const carousel = new StickerSetCarousel(container, config, {
 
 carousel.start();
 
-window.addEventListener("pagehide", (event) => {
+window.addEventListener('pagehide', (event) => {
   if (!event.persisted) carousel.destroy();
 });
 ```

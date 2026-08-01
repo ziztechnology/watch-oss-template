@@ -37,7 +37,7 @@ yarn add @ziztechnology/dial-library
 Import static assets with `import` instead of using absolute HTML paths directly. For example:
 
 ```tsx
-import dialBackground from "./assets/dial-background.png";
+import dialBackground from './assets/dial-background.png';
 
 export const Foo = () => {
   return <img src={dialBackground} alt="Watch face background" />;

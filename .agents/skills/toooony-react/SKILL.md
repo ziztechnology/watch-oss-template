@@ -10,11 +10,11 @@ description: React and JSX/TSX-specific implementation and review standards cove
 You must use functional components. Both functional components and their internal utility functions must be defined with arrow functions.
 
 ```tsx
-import type { FC } from "react";
+import type { FC } from 'react';
 
 export const Foo: FC = () => {
   const handleClick = () => {
-    console.log("test");
+    console.log('test');
   };
 
   return <div onClick={handleClick}>bar</div>;
@@ -26,7 +26,7 @@ export const Foo: FC = () => {
 When a component serves as a page and the framework permits default exports, use the following style:
 
 ```tsx
-import type { FC } from "react";
+import type { FC } from 'react';
 
 const FooPage: FC = () => {
   return <div>Foo Page</div>;
@@ -40,7 +40,7 @@ export default FooPage;
 A component's Props type must be defined separately and passed as the type argument to `FC`.
 
 ```tsx
-import type { FC } from "react";
+import type { FC } from 'react';
 
 interface FooProps {
   title: string;
@@ -65,12 +65,12 @@ export const Foo: FC<FooProps> = (props) => {
 Define all mutable state owned by the component in a single `componentData` object and manage it with one `useState`. `componentData` must contain only plain data that can be serialized as a JSON object, and it must use `JsonObject` from `ts-essentials` directly as its type. Do not define or use a dedicated type for `componentData` that inherits from or extends `JsonObject`.
 
 ```tsx
-import { useState } from "react";
-import type { JsonObject } from "ts-essentials";
+import { useState } from 'react';
+import type { JsonObject } from 'ts-essentials';
 
 const [componentData, setComponentData] = useState<JsonObject>({
   formData: {
-    keyword: "",
+    keyword: '',
   },
   listData: [],
   loading: false,
@@ -112,8 +112,8 @@ When updating `componentData`, create new references for every nested object and
 When creating the initial state requires parsing a large serialized payload or performing another expensive synchronous computation, you must pass a pure initializer function to `useState`. The initializer must not produce side effects, and identical inputs must produce identical results.
 
 ```tsx
-import { useState } from "react";
-import type { JsonObject } from "ts-essentials";
+import { useState } from 'react';
+import type { JsonObject } from 'ts-essentials';
 
 const [componentData, setComponentData] = useState<JsonObject>(() => ({
   settings: JSON.parse(serializedSettings),
@@ -127,7 +127,7 @@ const [componentData, setComponentData] = useState<JsonObject>(() => ({
 Use `useMount` from `ahooks` for side effects such as data requests that run when the component mounts:
 
 ```tsx
-import { useMount } from "ahooks";
+import { useMount } from 'ahooks';
 
 useMount(() => {
   void fetchUserProfile();
@@ -139,7 +139,7 @@ useMount(() => {
 Browser-side initialization logic that must run once on every application startup should be placed in the application entry point. Continue to use `useMount` for local logic that must run when a component mounts.
 
 ```tsx
-import { createRoot } from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 
 const initializeApplication = () => {
   loadSettings();
@@ -148,7 +148,7 @@ const initializeApplication = () => {
 
 initializeApplication();
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById('root')!).render(<App />);
 ```
 
 ## Interaction Side Effects
@@ -158,7 +158,7 @@ Requests, notifications, and other side effects triggered by explicit user inter
 ```tsx
 const handleSubmit = async () => {
   await submitForm(componentData.formData);
-  showToast("Submitted successfully");
+  showToast('Submitted successfully');
 };
 ```
 
@@ -169,7 +169,7 @@ Use Effects to synchronize the current render result with external systems such 
 Each Effect should manage exactly one independent synchronization process. Synchronization processes that depend on different reactive values must be split into separate Effects.
 
 ```tsx
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 useEffect(() => {
   analytics.trackPageView(pathname);
@@ -193,7 +193,7 @@ useEffect(() => {
 When the project uses a React version that supports `useEffectEvent`, event logic that must read the latest Props or state inside an Effect but should not trigger resynchronization may be extracted into an Effect Event. Call an Effect Event only from an Effect or another Effect Event in the same component, and do not add it to the Effect dependency array.
 
 ```tsx
-import { useEffect, useEffectEvent } from "react";
+import { useEffect, useEffectEvent } from 'react';
 
 const handleConnected = useEffectEvent(() => {
   showNotification(theme);
@@ -201,7 +201,7 @@ const handleConnected = useEffectEvent(() => {
 
 useEffect(() => {
   const connection = createConnection(roomID);
-  connection.on("connected", handleConnected);
+  connection.on('connected', handleConnected);
   connection.connect();
 
   return () => {
@@ -223,7 +223,7 @@ export const SearchBox: FC<SearchBoxProps> = (props) => {
   const { onSearch } = props;
 
   const handleSearch = () => {
-    onSearch("React");
+    onSearch('React');
   };
 
   return <button onClick={handleSearch}>Search</button>;
@@ -237,7 +237,7 @@ export const SearchBox: FC<SearchBoxProps> = (props) => {
 When a condition may be a number or another value that React can render, you must first derive an explicit Boolean condition, then use a ternary expression to render the target content or `null`.
 
 ```tsx
-import type { FC } from "react";
+import type { FC } from 'react';
 
 interface BadgeProps {
   count: number;
@@ -256,10 +256,10 @@ export const Badge: FC<BadgeProps> = (props) => {
 Large components that are not needed for the initial render should be lazy-loaded with `lazy`, and `Suspense` should provide a stable fallback UI at a location that can represent an independent loading state. Lazy-loaded components must be defined at the module's top level.
 
 ```tsx
-import { lazy, Suspense } from "react";
-import type { FC } from "react";
+import { lazy, Suspense } from 'react';
+import type { FC } from 'react';
 
-const DataChart = lazy(() => import("./DataChart"));
+const DataChart = lazy(() => import('./DataChart'));
 
 export const Dashboard: FC = () => {
   return (
@@ -275,7 +275,7 @@ export const Dashboard: FC = () => {
 When a state update triggers an expensive render that blocks urgent interactions such as input or clicks, you may use `useTransition` to mark the update as non-urgent. `isPending` indicates only whether the Transition is still in progress. Keep request cancellation, result ordering, and error handling in the request logic.
 
 ```tsx
-import { useTransition } from "react";
+import { useTransition } from 'react';
 
 const [isPending, startTransition] = useTransition();
 
@@ -294,8 +294,8 @@ return <TabContent aria-busy={isPending} />;
 When a new value received by a component triggers an expensive derived render and the current component cannot control where that value is updated, you may use `useDeferredValue` to defer updating the corresponding subtree. Use `useDeferredValue` to adjust rendering priority, not to reduce or delay network requests.
 
 ```tsx
-import { memo, useDeferredValue } from "react";
-import type { FC } from "react";
+import { memo, useDeferredValue } from 'react';
+import type { FC } from 'react';
 
 interface SearchResultsProps {
   keyword: string;
@@ -324,8 +324,8 @@ export const SearchResults: FC<SearchResultsProps> = (props) => {
 When the project uses a React version that supports `Activity` and an interface that switches visibility frequently must preserve its internal state and DOM, you may use `Activity`. Effects in child components are cleaned up while hidden, so every Effect must implement complete cleanup logic.
 
 ```tsx
-import { Activity } from "react";
-import type { FC } from "react";
+import { Activity } from 'react';
+import type { FC } from 'react';
 
 interface SidebarProps {
   visible: boolean;
@@ -335,7 +335,7 @@ export const Sidebar: FC<SidebarProps> = (props) => {
   const { visible } = props;
 
   return (
-    <Activity mode={visible ? "visible" : "hidden"}>
+    <Activity mode={visible ? 'visible' : 'hidden'}>
       <SidebarContent />
     </Activity>
   );

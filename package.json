@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-router": "^1.170.18",
+    "@tanstack/react-router-devtools": "^1.167.0",
     "@ziztechnology/dial-library": "^0.0.24",
     "ahooks": "^3.9.7",
     "ky": "^2.0.2",
@@ -22,6 +24,7 @@
     "ts-essentials": "^10.2.1"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.168.23",
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",

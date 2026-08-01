@@ -1,4 +1,4 @@
-import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router';
+import { createHashHistory, createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router';
 import HomeLayout from '@/layouts/HomeLayout';
 import { createHomeRoute } from './home';
 
@@ -24,4 +24,7 @@ const homeRoute = createHomeRoute(rootRoute);
 
 const routeTree = rootRoute.addChildren([indexRoute, homeRoute]);
 
-export const router = createRouter({ routeTree });
+export const router = createRouter({
+  routeTree,
+  history: createHashHistory(),
+});

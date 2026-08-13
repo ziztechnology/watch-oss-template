@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "@tanstack/react-router": "^1.170.18",
-    "@tanstack/react-router-devtools": "^1.167.0",
-    "@ziztechnology/dial-library": "^0.0.24",
+    "@tanstack/react-router": "^1.170.27",
+    "@tanstack/react-router-devtools": "^1.167.1",
+    "@ziztechnology/dial-library": "^0.1.6",
     "ahooks": "^3.9.7",
     "ky": "^2.0.2",
     "react": "^19.2.8",
@@ -25,16 +25,16 @@
     "ts-essentials": "^10.2.1"
   },
   "devDependencies": {
-    "@tanstack/router-plugin": "^1.168.23",
+    "@tanstack/router-plugin": "^1.168.30",
     "@types/archiver": "^8.0.0",
-    "@types/node": "^26.1.2",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.4",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
     "archiver": "^8.0.0",
-    "oxfmt": "^0.61.0",
-    "oxlint": "^1.76.0",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
     "typescript": "~7.0.2",
-    "vite": "^8.1.5"
+    "vite": "^8.2.1"
   }
 }

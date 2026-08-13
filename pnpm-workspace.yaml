@@ -1,2 +1,7 @@
 minimumReleaseAgeExclude:
   - '@ziztechnology/dial-library@0.0.24'
+  - '@tanstack/react-router@1.170.27'
+  - '@tanstack/router-core@1.171.22'
+  - '@tanstack/router-generator@1.167.28'
+  - '@tanstack/router-plugin@1.168.30'
+  - '@ziztechnology/dial-library@0.1.6'

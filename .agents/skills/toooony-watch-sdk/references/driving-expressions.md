@@ -1,5 +1,12 @@
 # Driving Expressions and Player
 
+## Contents
+
+- [Read and Validate the Driving Expression Configuration](#read-and-validate-the-driving-expression-configuration)
+- [Validate Media URLs](#validate-media-urls)
+- [Create a Driving Expression Player](#create-a-driving-expression-player)
+- [Manage the Page Lifecycle](#manage-the-page-lifecycle)
+
 ## Read and Validate the Driving Expression Configuration
 
 The Runtime places the configuration in `__TOOOONY_DRIVING_EXPRESSIONS__` on the page. Under normal circumstances, read it directly:
@@ -16,9 +23,9 @@ if (!config) {
 
 When the configuration is missing or invalid, the function returns `null`. The SDK does not silently add default media.
 
-### Write a Configuration
+### Write a Current Configuration
 
-With `schemaVersion: 1`, `states` must contain exactly eight statuses. Each status may use one of the following media types:
+`CompleteDrivingExpressionsConfig` uses `schemaVersion: 2`. Its `states` object must contain exactly the seven current statuses. Each status may use one of the following media types:
 
 ```ts
 type StructuredDrivingExpressionMedia =
@@ -40,28 +47,33 @@ Minimal example:
 
 ```ts
 const rawConfig = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   states: {
     STOPPED: { kind: 'emoji', text: '😐' },
     STEADY_DRIVING: { kind: 'emoji', text: '😊' },
     ACCELERATION: { kind: 'emoji', text: '😄' },
     RAPID_ACCELERATION: { kind: 'emoji', text: '😲' },
     BRAKING: { kind: 'emoji', text: '😣' },
-    SUDDEN_BRAKING: { kind: 'emoji', text: '😱' },
     LEFT_TURN: { kind: 'emoji', text: '🤨' },
     RIGHT_TURN: { kind: 'emoji', text: '🤨' },
   },
 };
 ```
 
+### Migrate a Legacy Configuration
+
+Use schema v1 only as migration input. `parseDrivingExpressionsConfig()` accepts a v1 configuration only when it contains all eight legacy statuses. It returns a complete schema v2 configuration, preserves the legacy `BRAKING` media, and discards the legacy `SUDDEN_BRAKING` media.
+
+Reject incomplete v1 configurations. Reject schema v2 configurations that contain `SUDDEN_BRAKING` or any other unknown status. Always create, persist, and send schema v2 configurations after migration.
+
 ### Select a Configuration API
 
-| API                                     | Result                                                                |
-| --------------------------------------- | --------------------------------------------------------------------- |
-| `parseDrivingExpressionsConfig(raw)`    | Throws `DrivingExpressionsConfigError` for invalid configuration      |
-| `tryParseDrivingExpressionsConfig(raw)` | Returns `null` for invalid configuration                              |
+| API                                     | Result                                                        |
+| --------------------------------------- | ------------------------------------------------------------- |
+| `parseDrivingExpressionsConfig(raw)`    | Throws `DrivingExpressionsConfigError` for invalid configuration |
+| `tryParseDrivingExpressionsConfig(raw)` | Returns `null` for invalid configuration                      |
 | `readDrivingExpressionsConfig()`        | Reads the Runtime configuration; returns `null` if missing or invalid |
-| `waitForDrivingExpressionsConfig()`     | Waits for a Runtime configuration; returns `null` on timeout          |
+| `waitForDrivingExpressionsConfig()`     | Waits for a Runtime configuration; returns `null` on timeout  |
 
 After catching `DrivingExpressionsConfigError`, use `error.code` to distinguish an incorrect schema, a missing status, invalid media fields, and an unsafe URL. For user-provided configuration, record `code` and `message` to identify the incorrect entry.
 
@@ -85,7 +97,7 @@ const config = await waitForDrivingExpressionsConfig({
 
 On cancellation, the Promise rejects with `AbortError`. The example above catches that error and converts the cancellation result to `null`, preventing an unhandled Promise rejection when the page is left.
 
-Legacy configurations allow image URLs to be specified directly. Enable compatibility only when migrating legacy configurations:
+Legacy v0 configurations may specify image URLs directly instead of structured media objects. Enable compatibility only while migrating that bare-URL format:
 
 ```ts
 const config = parseDrivingExpressionsConfig(rawConfig, {
@@ -93,7 +105,7 @@ const config = parseDrivingExpressionsConfig(rawConfig, {
 });
 ```
 
-`resolveDrivingExpression()` falls back to the `STEADY_DRIVING` media when a legacy status is missing. `resolveDrivingExpressionStrict()` does not automatically use other media; it throws an error when a status is missing and no fallback media is specified. The player uses the latter, strict rule.
+`resolveDrivingExpression()` preserves the old partial-config behavior by falling back to `STEADY_DRIVING` media when a requested status is missing. Do not rely on that fallback for newly parsed configurations, which are complete. `resolveDrivingExpressionStrict()` does not automatically use other media; it throws an error when a status is missing and no fallback media is specified. The player uses the latter, strict rule.
 
 `parseDrivingExpressionsConfig()`, `tryParseDrivingExpressionsConfig()`, and `readDrivingExpressionsConfig(raw)` all accept either a parsed object or a JSON string containing that object.
 
@@ -173,6 +185,25 @@ window.addEventListener('pagehide', (event) => {
 
 The SDK includes built-in TGS playback support. Do not install `lottie-web` separately.
 
+### Update Configuration and Resolve Cached Media
+
+Call `updateConfig()` when the Runtime or application replaces the complete configuration. It reloads the current status even when that status has not changed:
+
+```ts
+const player = createDrivingExpressionPlayer(container, {
+  config,
+  preserveCurrentMediaWhileLoading: true,
+  resolveMediaUrl(url, media, source) {
+    return mediaCache.resolve(url, media, source) ?? url;
+  },
+});
+
+await player.show('STOPPED');
+await player.updateConfig(nextConfig);
+```
+
+The original configuration URLs must remain valid public HTTPS URLs. A trusted `resolveMediaUrl` callback may return a Blob or same-origin cache URL for the `primary`, `cover`, or `motion` source. If the resolved URL fails, the player reports `resolved_media_load_failed` and retries the original URL once. Use `mediaAssetId`, `originalUrl`, and `source` from that diagnostic to invalidate a bad cache entry. Set `preserveCurrentMediaWhileLoading: true` to keep the committed image, video, Live Photo, or TGS visible until its replacement is ready.
+
 ### TGS Media Requirements
 
 Meet the following requirements when using TGS media:
@@ -182,9 +213,11 @@ Meet the following requirements when using TGS media:
 - By default, limit compressed files to 2 MiB, JSON to 8 MiB, and layers to 500.
 - Set `loadTimeoutMs`, `maxTgsCompressedBytes`, `maxTgsJsonBytes`, or `maxTgsLayers` to adjust limits. Pass `fetch` to customize network requests.
 
+The TGS loader also requires a top-level `layers` array. Optional `w` and `h` values must be finite numbers from 1 through 4096. A numeric `fr` must be greater than 0 and no greater than 120. When `ip` and `op` are both numeric, require `op > ip` and a span no greater than 30,000 frames.
+
 Give the player a dedicated `container` with an explicit width and height so images, videos, and animations can use a `contain` or `cover` layout.
 
-The player provides `show()`, `pause()`, `resume()`, `destroy()`, and `getSnapshot()`. The `phase` returned by `getSnapshot()` may be `idle`, `loading`, `ready`, `fallback`, or `error`.
+The player provides `show()`, `updateConfig()`, `pause()`, `resume()`, `destroy()`, and `getSnapshot()`. The `phase` returned by `getSnapshot()` may be `idle`, `loading`, `ready`, `fallback`, or `error`.
 
 ### Use Fallback Media When Media Fails
 
@@ -220,7 +253,7 @@ Only Emoji and images can be used as fallback media. On network failure, load ti
 
 Prefer Emoji when deterministic fallback behavior is required. When using a fallback image, verify the URL and resource availability in advance.
 
-The default load timeout is 5 seconds, and the player retries 15 seconds after a failure. Change these values with `loadTimeoutMs` and `retryBackoffMs`. Set image and video display behavior with `fit: 'contain' | 'cover'`.
+The default `loadTimeoutMs` is 5 seconds per timed attempt or stage, not for the complete operation. TGS network loading and Lottie readiness each receive a separate timeout, while decompression, JSON parsing, and the dynamic Lottie import are outside those timers. A resolved media URL and its fallback to the original URL also receive separate attempts. The player retries the status 15 seconds after a failure by default. Change these values with `loadTimeoutMs` and `retryBackoffMs`. Set image and video display behavior with `fit: 'contain' | 'cover'`.
 
 ## Manage the Page Lifecycle
 

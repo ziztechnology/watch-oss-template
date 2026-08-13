@@ -29,10 +29,7 @@ let info;
 try {
   info = await unifiedSensorInfo();
 } catch (error) {
-  console.error(
-    'Unable to read device information. Verify that the page is running in a supported Toooony Runtime.',
-    error,
-  );
+  console.error('Unable to read device information. Verify that the page is running in a supported Toooony Runtime.', error);
   throw error;
 }
 
@@ -68,19 +65,19 @@ if (info.motionIntensity?.available) {
 
 ### Select the Required Fields
 
-| Field                | Content                                                     | Unit     |
-| -------------------- | ----------------------------------------------------------- | -------- |
-| `gyroscope`          | Gyroscope `{ x, y, z }`                                     | `rad/s`  |
-| `accelerometer`      | Accelerometer `{ x, y, z }`                                 | `m/s²`   |
-| `linearAcceleration` | Linear acceleration without gravity `{ x, y, z }`           | `m/s²`   |
-| `gravity`            | Gravity vector `{ x, y, z }`                                | `m/s²`   |
-| `magneticField`      | Magnetic field `{ x, y, z }`                                | `µT`     |
-| `orientation`        | Orientation `{ azimuth, pitch, roll }`                      | `degree` |
-| `motionIntensity`    | Motion intensity; older Runtimes may omit it                | `m/s²`   |
-| `temperature`        | Battery temperature                                         | `°C`     |
-| `wifiSsid`           | Current Wi-Fi name                                          | None     |
-| `batteryCapacity`    | Battery percentage and charge counter                       | None     |
-| `battery`            | Battery presence, charging state, health, voltage, and more | None     |
+| Field                | Content                                             | Unit     |
+| -------------------- | --------------------------------------------------- | -------- |
+| `gyroscope`          | Gyroscope `{ x, y, z }`                             | `rad/s`  |
+| `accelerometer`      | Accelerometer `{ x, y, z }`                         | `m/s²`   |
+| `linearAcceleration` | Linear acceleration without gravity `{ x, y, z }` | `m/s²`   |
+| `gravity`            | Gravity vector `{ x, y, z }`                        | `m/s²`   |
+| `magneticField`      | Magnetic field `{ x, y, z }`                        | `µT`     |
+| `orientation`        | Orientation `{ azimuth, pitch, roll }`              | `degree` |
+| `motionIntensity`    | Motion intensity; older Runtimes may omit it        | `m/s²`   |
+| `temperature`        | Battery temperature                                 | `°C`     |
+| `wifiSsid`           | Current Wi-Fi name                                  | None     |
+| `batteryCapacity`    | Battery percentage and charge counter               | None     |
+| `battery`            | Battery presence, charging state, health, voltage, and more | None |
 
 `capturedAtMs` is the time when the device information was generated. `sampledAtMs` in available data is the sampling time for the corresponding sensor. When data is unavailable, this field may be `null` depending on the sensor type. Check `available` before using it.
 

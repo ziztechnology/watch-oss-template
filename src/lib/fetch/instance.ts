@@ -1,13 +1,13 @@
 import ky, { type Options } from 'ky';
 import type { JsonObject } from 'ts-essentials';
 
-import { beforeError, beforeRequest } from './hooks';
+import { beforeError } from './hooks';
 
 const getAPIBaseURL = () => {
   const apiBaseURL = import.meta.env.VITE_BASE_API?.trim();
 
   if (!apiBaseURL) {
-    throw new Error('缺少 BASE_API 环境变量。');
+    throw new Error('缺少 VITE_BASE_API 环境变量。');
   }
 
   return apiBaseURL;
@@ -18,11 +18,7 @@ const apiBaseURL = getAPIBaseURL();
 export const instance = ky.create({
   prefix: apiBaseURL,
   hooks: {
-    beforeRequest,
     beforeError,
-  },
-  headers: {
-    'X-Toooony-Client': 'open-platform',
   },
 });
 
